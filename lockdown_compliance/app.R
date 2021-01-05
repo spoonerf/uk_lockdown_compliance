@@ -15,7 +15,6 @@ library(tidyr)
 library(ggplot2)
 
 
-
 if(!file.exists(paste0(Sys.Date(),"_Google_Global_Mobility_Report.csv"))){
     download.file("https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv", 
                   destfile = paste0(Sys.Date(),"_Google_Global_Mobility_Report.csv"))
