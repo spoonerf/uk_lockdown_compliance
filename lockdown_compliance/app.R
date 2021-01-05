@@ -49,9 +49,10 @@ ui <- fluidPage(
                                   "Select a region:",
                                   locations$sub_region_1,
                                   selected = locations$sub_region_1[31]),
-                      p("The data shown here reflect how communities spent their time during the COVID-19 pandemic, relative to a baseline which is the median value, for the corresponding day of the week, during the 5-week period Jan 3–Feb 6, 2020. Periods of national lockdown are shown with grey bars. Where data are missing there were not sufficient individuals at this location for the data to be aggregated anonymously.", align = "justified"),
-                      HTML("<p>All data are taken from <a href='https://www.google.com/covid19/mobility/'> Google Community Mobility Reports </a>.</p>"),
-                      HTML("<p>Code available at</p>")),
+                      p("The data shown here reflect how communities spent their time during the COVID-19 pandemic, relative to a baseline which is the median value, for the corresponding day of the week, during the 5-week period Jan 3–Feb 6, 2020.", align = "justified"), 
+                      p("Periods of national lockdown are shown with grey bars. Where data are missing there were not sufficient individuals at this location for the data to be aggregated anonymously.", align = "justified"),
+                      HTML("<p>All data are taken from <a href='https://www.google.com/covid19/mobility/'> Google Community Mobility Reports</a>.</p>"),
+                      HTML("<p><a href ='https://github.com/spoonerf/uk_lockdown_compliance'> Code available on Github</a>.</p>")),
                   # Show a plot 
                   mainPanel(
                       plotOutput("regionPlot")
