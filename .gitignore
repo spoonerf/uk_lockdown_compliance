@@ -1,0 +1,6 @@
+*.Rproj
+# Mac crap
+.DS_Store
+*_Google_Global_Mobility_Report.csv
+*.gitattributes
+*.csv
