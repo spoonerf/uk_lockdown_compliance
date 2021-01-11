@@ -48,6 +48,9 @@ ui <- fluidPage(
                                   "Select a region:",
                                   locations$sub_region_1,
                                   selected = locations$sub_region_1[31]),
+                      dateRangeInput("daterange", "Date range:",
+                                     start = "2020-02-15",
+                                     end   = Sys.Date()),
                       p("The data shown here reflect how communities spent their time during the COVID-19 pandemic. The values are relative to a baseline which is the median value, for the corresponding day of the week, during the 5-week period Jan 3–Feb 6, 2020.", align = "justified"), 
                       p("Periods of national lockdown are shown with grey bars. Where data are missing there were not sufficient individuals at this location for the data to be aggregated anonymously.", align = "justified"),
                       HTML("<p>All data are taken from <a href='https://www.google.com/covid19/mobility/'> Google Community Mobility Reports</a>.</p>"),
@@ -117,7 +120,7 @@ server <- function(input, output) {
         # The baseline is the median value, for the corresponding day of the week, 
         # during the 5-week period Jan 3–Feb 6, 2020
         ggplot()+
-            geom_line(data = gm_region, aes(x  = date, y = value, group = name, colour = name)) +
+            geom_line(data = gm_region %>% filter(date >= input$daterange[1] & date <= input$daterange[2]), aes(x  = date, y = value, group = name, colour = name)) +
             labs(colour = "", y = "Percent change from baseline", x = "Date")+
             geom_hline(yintercept = 0, linetype = "dashed")+
             theme_bw()+
@@ -125,7 +128,8 @@ server <- function(input, output) {
             theme(legend.position = "none")+
             geom_rect(data = lockdowns, mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2), alpha=0.4)+
             facet_wrap(.~name,  scales="free_y")+
-            ggtitle(input$region)
+            ggtitle(input$region)+
+            xlim(input$daterange[1], input$daterange[2])
         
         
         
