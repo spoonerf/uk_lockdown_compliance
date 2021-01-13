@@ -9,7 +9,6 @@
 
 library(shiny)
 library(dplyr)
-library(janitor)
 library(readr)
 library(tidyr)
 library(ggplot2)
@@ -20,9 +19,15 @@ if(!file.exists(paste0(Sys.Date(),"_Google_Global_Mobility_Report.csv"))){
                   destfile = paste0(Sys.Date(),"_Google_Global_Mobility_Report.csv"))
 }
 
+#file.remove(paste0(Sys.Date(),"_Google_Global_Mobility_Report.csv"))
+
 gm <- read.csv(paste0(Sys.Date(),"_Google_Global_Mobility_Report.csv")) %>% 
     filter(country_region == "United Kingdom") %>% 
     dplyr::select( -c(country_region_code))
+
+write.csv(gm, paste0(Sys.Date(),"_Google_UK_Mobility_Report.csv"), row.names = FALSE)
+
+gm <- read.csv(paste0(Sys.Date(),"_Google_UK_Mobility_Report.csv"))
 
 gm$date <- as.Date(gm$date)
 
@@ -124,17 +129,16 @@ server <- function(input, output) {
             labs(colour = "", y = "Percent change from baseline", x = "Date")+
             geom_hline(yintercept = 0, linetype = "dashed")+
             theme_bw()+
-            theme(text = element_text(size=20))+
+            theme(text = element_text(size=18))+
             theme(legend.position = "none")+
             geom_rect(data = lockdowns, mapping=aes(xmin=x1, xmax=x2, ymin=y1, ymax=y2), alpha=0.4)+
             facet_wrap(.~name,  scales="free_y")+
             ggtitle(input$region)+
             xlim(input$daterange[1], input$daterange[2])
         
-        
-        
+
     },
-    width = 800, 
+    width = 900, 
     height = 600)
 }
 
